@@ -39,3 +39,22 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Database dumps
+*.sql.gz
+*.dump
+*.bak
+
+# Local backups
+/backups
+
+# Logs
+*.log
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+Thumbs.db
+
