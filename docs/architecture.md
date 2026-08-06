@@ -40,6 +40,13 @@ Die Anwendung enthält:
 - selbst gehostet auf einem IONOS-VPS
 - geplante Adresse: pulse.node-test.de
 
+
+Pulse verwendet PostgreSQL als relationale Datenbank.
+
+Die Datenbank läuft lokal auf dem VPS und ist nicht direkt über das Internet erreichbar.
+
+Zugriff erhält ausschließlich die Pulse-Anwendung.
+
 ## Komponenten
 
 ### Angebundene Website
@@ -105,3 +112,60 @@ Pulse erstellt keine:
 - Marketing-Funnels
 - personenbezogenen Auswertungen
 - Speicherung roher IP-Adressen
+
+# Datenbank
+
+## PostgreSQL
+
+Pulse verwendet eine lokal auf dem VPS betriebene PostgreSQL-Datenbank.
+
+- Version: PostgreSQL 16
+- Datenbank: `pulse`
+- Anwendungsrolle: `pulse_app`
+- PostgreSQL lauscht ausschließlich auf `127.0.0.1:5432`
+- Externe Datenbankverbindungen sind nicht erlaubt
+- Lokale TCP-Verbindungen verwenden `scram-sha-256`
+- Die Rolle `pulse_app` besitzt keine administrativen PostgreSQL-Rechte
+
+## Schema
+
+Das produktive Schema liegt in:
+
+`sql/schema.sql`
+
+Es enthält zunächst die Tabellen:
+
+- `sites`
+- `sessions`
+- `page_views`
+
+
+## Aktueller Stand
+
+Das initiale Schema wurde erfolgreich auf dem VPS eingespielt.
+
+### Tabellen
+
+- `sites`
+- `sessions`
+- `page_views`
+
+### Beziehungen
+
+- Eine Website besitzt mehrere Sessions.
+- Eine Session besitzt mehrere Pageviews.
+- Beim Löschen einer Website werden ihre Sessions und Pageviews ebenfalls gelöscht.
+- Beim Löschen einer Session werden ihre Pageviews ebenfalls gelöscht.
+
+### Indizes
+
+Die Datenbank enthält Indizes für:
+
+- Sessions nach Website und Startzeit
+- aktive Session-Zuordnung über den temporären Match-Key
+- Pageviews nach Session
+- Pageviews nach Zeitpunkt
+- Pageviews nach Pfad und Zeitpunkt
+
+
+
