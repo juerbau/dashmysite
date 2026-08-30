@@ -168,4 +168,36 @@ Die Datenbank enthält Indizes für:
 - Pageviews nach Pfad und Zeitpunkt
 
 
+## Tracking-Workflow
 
+Ein Seitenaufruf wird über `trackPageView()` verarbeitet.
+
+Der Workflow:
+
+1. ermittelt die registrierte Website,
+2. sucht eine aktive Session anhand des temporären Match-Keys,
+3. legt bei Bedarf eine neue Session an,
+4. speichert den PageView,
+5. aktualisiert bei bestehenden Sessions `last_seen_at`
+   und `pageview_count`.
+
+Session- und PageView-Schreibvorgänge erfolgen gemeinsam
+innerhalb einer PostgreSQL-Transaktion.
+
+
+## Session-Zuordnung
+
+Pulse verwendet keine dauerhafte Besucher-ID.
+
+Eine angebundene Website erzeugt für den aktuellen Request einen
+temporären HMAC-Match-Key aus:
+
+- Client-IP
+- User-Agent
+- Tageskennung
+- website-spezifischem geheimem Schlüssel
+
+Die rohe IP-Adresse wird nicht an Pulse übertragen oder gespeichert.
+
+Der Match-Key dient ausschließlich dazu, mehrere Pageviews innerhalb
+eines kurzfristigen Besuchs derselben Session zuzuordnen.
