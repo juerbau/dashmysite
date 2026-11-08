@@ -13,7 +13,7 @@ mit PostgreSQL.
 
 ## Entwicklungsumgebung
 
-Pulse wird lokal entwickelt.
+DashMySite wird lokal entwickelt.
 
 Die lokale Umgebung besteht aus:
 

@@ -23,7 +23,7 @@ CREATE TABLE sessions (
                               REFERENCES sites(id)
                                   ON DELETE CASCADE,
 
-                          match_key CHAR(64),
+                          match_key UUID,
 
                           started_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
                           last_seen_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),

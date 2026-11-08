@@ -6,7 +6,7 @@ import {
     InvalidApiSecretError,
     InvalidTrackingDataError,
 } from "@/lib/analytics/errors";
-import { pulseEventSchema } from "@/lib/validation/pulse-event-schema";
+import { dashMySiteEventSchema } from "@/lib/validation/dashmysite-event-schema";
 
 export const runtime = "nodejs";
 
@@ -38,7 +38,7 @@ export async function POST(request) {
 
         const body = await request.json();
 
-        const validationResult = pulseEventSchema.safeParse(body);
+        const validationResult = dashMySiteEventSchema.safeParse(body);
 
         if (!validationResult.success) {
             return NextResponse.json(
@@ -117,7 +117,7 @@ export async function POST(request) {
             );
         }
 
-        console.error("Pulse event error:", error);
+        console.error("DashMySite event error:", error);
 
         return NextResponse.json(
             {

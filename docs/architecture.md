@@ -1,25 +1,25 @@
-# Pulse – Architektur
+# DashMySite – Architektur
 
 ## Ziel
 
-Pulse ist eine kleine, selbst gehostete und datensparsame
+DashMySite ist eine kleine, selbst gehostete und datensparsame
 Analytics-Anwendung für Websites.
 
-Pulse erfasst Besuche und Seitenaufrufe, ohne Menschen dauerhaft
+DashMySite erfasst Besuche und Seitenaufrufe, ohne Menschen dauerhaft
 über mehrere Besuche hinweg wiederzuerkennen.
 
 ## Leitprinzipien
 
-1. Pulse beobachtet Besuche, nicht Menschen.
+1. DashMySite beobachtet Besuche, nicht Menschen.
 2. Analytics darf niemals vom angebundenen Projekt abhängen.
-3. Der Ausfall von Pulse darf eine angebundene Website niemals beeinträchtigen.
+3. Der Ausfall von DashMySite darf eine angebundene Website niemals beeinträchtigen.
 4. Es werden nur Daten gespeichert, die einer festgelegten Auswertung dienen.
 5. Rohe IP-Adressen werden nicht gespeichert.
 6. Es werden keine langfristigen Besucherprofile angelegt.
 
 ## Systemarchitektur
 
-Pulse ist eine eigenständige Next.js-Anwendung.
+DashMySite ist eine eigenständige Next.js-Anwendung.
 
 Die Anwendung enthält:
 
@@ -38,14 +38,14 @@ Die Anwendung enthält:
 - PostgreSQL
 - Nginx als Reverse Proxy
 - selbst gehostet auf einem IONOS-VPS
-- geplante Adresse: pulse.node-test.de
+- geplante Adresse: DashMySite.node-test.de
 
 
-Pulse verwendet PostgreSQL als relationale Datenbank.
+DashMySite verwendet PostgreSQL als relationale Datenbank.
 
 Die Datenbank läuft lokal auf dem VPS und ist nicht direkt über das Internet erreichbar.
 
-Zugriff erhält ausschließlich die Pulse-Anwendung.
+Zugriff erhält ausschließlich die DashMySite-Anwendung.
 
 ## Komponenten
 
@@ -55,9 +55,9 @@ Eine angebundene Website erfasst einen Seitenwechsel und sendet diesen
 zunächst an eine eigene serverseitige Route.
 
 Diese Route ergänzt serverseitig verfügbare Informationen und leitet das
-Ereignis authentifiziert an Pulse weiter.
+Ereignis authentifiziert an DashMySite weiter.
 
-### Pulse API
+### DashMySite API
 
 Öffentlicher Endpunkt:
 
@@ -72,7 +72,7 @@ Die API:
 - ordnet den Aufruf einer aktiven Session zu
 - speichert den Seitenaufruf
 
-### Pulse Dashboard
+### DashMySite Dashboard
 
 Das Dashboard stellt unter anderem dar:
 
@@ -91,7 +91,7 @@ Das Dashboard stellt unter anderem dar:
 
 ## Datenmodell
 
-Pulse verwendet zunächst drei Tabellen:
+DashMySite verwendet zunächst drei Tabellen:
 
 - sites
 - sessions
@@ -104,7 +104,7 @@ sessions 1:n page_views
 
 ## Nicht-Ziele
 
-Pulse erstellt keine:
+DashMySite erstellt keine:
 
 - langfristigen Besucherkennungen
 - werbeorientierten Nutzerprofile
@@ -117,15 +117,15 @@ Pulse erstellt keine:
 
 ## PostgreSQL
 
-Pulse verwendet eine lokal auf dem VPS betriebene PostgreSQL-Datenbank.
+DashMySite verwendet eine lokal auf dem VPS betriebene PostgreSQL-Datenbank.
 
 - Version: PostgreSQL 16
-- Datenbank: `pulse`
-- Anwendungsrolle: `pulse_app`
+- Datenbank: `DashMySite`
+- Anwendungsrolle: `DashMySite_app`
 - PostgreSQL lauscht ausschließlich auf `127.0.0.1:5432`
 - Externe Datenbankverbindungen sind nicht erlaubt
 - Lokale TCP-Verbindungen verwenden `scram-sha-256`
-- Die Rolle `pulse_app` besitzt keine administrativen PostgreSQL-Rechte
+- Die Rolle `DashMySite_app` besitzt keine administrativen PostgreSQL-Rechte
 
 ## Schema
 
@@ -187,7 +187,7 @@ innerhalb einer PostgreSQL-Transaktion.
 
 ## Session-Zuordnung
 
-Pulse verwendet keine dauerhafte Besucher-ID.
+DashMySite verwendet keine dauerhafte Besucher-ID.
 
 Eine angebundene Website erzeugt für den aktuellen Request einen
 temporären HMAC-Match-Key aus:
@@ -197,7 +197,7 @@ temporären HMAC-Match-Key aus:
 - Tageskennung
 - website-spezifischem geheimem Schlüssel
 
-Die rohe IP-Adresse wird nicht an Pulse übertragen oder gespeichert.
+Die rohe IP-Adresse wird nicht an DashMySite übertragen oder gespeichert.
 
 Der Match-Key dient ausschließlich dazu, mehrere Pageviews innerhalb
 eines kurzfristigen Besuchs derselben Session zuzuordnen.

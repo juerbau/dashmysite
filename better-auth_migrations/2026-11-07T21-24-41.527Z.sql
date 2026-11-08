@@ -1,0 +1,15 @@
+BEGIN;
+
+SET LOCAL search_path TO auth;
+
+alter table "user" add column "role" text;
+
+alter table "user" add column "banned" boolean default false;
+
+alter table "user" add column "banReason" text;
+
+alter table "user" add column "banExpires" timestamptz;
+
+alter table "session" add column "impersonatedBy" text;
+
+COMMIT;
