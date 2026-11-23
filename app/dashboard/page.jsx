@@ -18,7 +18,6 @@ import {getOperatingSystemStats} from "@/lib/analytics/getOperatingSystemStats";
 import OperatingSystemStats from "@/ui/components/analytics/OperatingSystemStats";
 import {getLanguageStats} from "@/lib/analytics/getLanguageStats";
 import LanguageStats from "@/ui/components/analytics/LanguageStats";
-import getReferrerSource from "@/lib/tracking/getReferrerSource";
 
 
 export default async function DashboardPage({searchParams}) {
@@ -65,7 +64,6 @@ export default async function DashboardPage({searchParams}) {
 
     return (
         <main className="flex flex-col gap-4">
-            {/*<p>{referrerDomain}</p>*/}
 
             <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>

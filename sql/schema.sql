@@ -30,8 +30,7 @@ CREATE TABLE sessions (
 
                           entry_path TEXT NOT NULL,
 
-                          referrer_domain VARCHAR(255),
-                          referrer_type VARCHAR(30) NOT NULL DEFAULT 'direct',
+                          referrer_source VARCHAR(30),
 
                           browser VARCHAR(50),
                           operating_system VARCHAR(50),
@@ -45,17 +44,6 @@ CREATE TABLE sessions (
                           CONSTRAINT sessions_pageview_count_positive
                               CHECK (pageview_count > 0),
 
-                          CONSTRAINT sessions_referrer_type_valid
-                              CHECK (
-                                  referrer_type IN (
-                                                    'direct',
-                                                    'search',
-                                                    'social',
-                                                    'external',
-                                                    'internal',
-                                                    'unknown'
-                                      )
-                                  ),
 
                           CONSTRAINT sessions_device_type_valid
                               CHECK (
