@@ -8,6 +8,17 @@ import TopPages from "@/ui/components/analytics/TopPages";
 import PageViews from "@/ui/components/analytics/PageViews";
 import {getReferrerStats} from "@/lib/analytics/getReferrerStats";
 import ReferrerStats from "@/ui/components/analytics/ReferrerStats";
+import {getDeviceStats} from "@/lib/analytics/getDeviceStats";
+import DeviceStats from "@/ui/components/analytics/DeviceStats";
+import {getBrowserStats} from "@/lib/analytics/getBrowserStats";
+import BrowserStats from "@/ui/components/analytics/BrowserStats";
+import {getCountryStats} from "@/lib/analytics/getCountryStats";
+import CountryStats from "@/ui/components/analytics/CountryStats";
+import {getOperatingSystemStats} from "@/lib/analytics/getOperatingSystemStats";
+import OperatingSystemStats from "@/ui/components/analytics/OperatingSystemStats";
+import {getLanguageStats} from "@/lib/analytics/getLanguageStats";
+import LanguageStats from "@/ui/components/analytics/LanguageStats";
+import getReferrerSource from "@/lib/tracking/getReferrerSource";
 
 
 export default async function DashboardPage({searchParams}) {
@@ -27,6 +38,16 @@ export default async function DashboardPage({searchParams}) {
 
     const referrerStats = await getReferrerStats(siteId, period);
 
+    const deviceStats = await getDeviceStats(siteId, period);
+
+    const browserStats = await getBrowserStats(siteId, period);
+
+    const countryStats = await getCountryStats(siteId, period);
+
+    const operatingSystemStats = await getOperatingSystemStats(siteId, period);
+
+    const languageStats = await getLanguageStats(siteId, period);
+
     const periodOptions = [
         {value: "today", label: "Heute"},
         {value: "7d", label: "7 Tage"},
@@ -44,6 +65,7 @@ export default async function DashboardPage({searchParams}) {
 
     return (
         <main className="flex flex-col gap-4">
+            {/*<p>{referrerDomain}</p>*/}
 
             <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
@@ -104,13 +126,13 @@ export default async function DashboardPage({searchParams}) {
                 />
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                <TopPages
-                    key={period}
-                    topPages={topPages}
-                />
-                <ReferrerStats
-                    referrerStats={referrerStats}
-                />
+                <TopPages topPages={topPages}/>
+                <ReferrerStats referrerStats={referrerStats}/>
+                <DeviceStats deviceStats={deviceStats}/>
+                <BrowserStats browserStats={browserStats}/>
+                <CountryStats countryStats={countryStats}/>
+                <OperatingSystemStats operatingSystemStats={operatingSystemStats}/>
+                <LanguageStats languageStats={languageStats}/>
             </div>
         </main>
     );

@@ -1,21 +1,22 @@
-"use client";
-
-import { motion } from "motion/react";
 import {
     Card,
     CardContent,
     CardHeader,
     CardTitle,
 } from "@/ui/components/shadcn/card";
+import StatsBar from "@/ui/components/analytics/StatsBar";
 
-export default function ReferrerStats({referrerStats}){
+export default function ReferrerStats({referrerStats}) {
 
-    const totalVisits = referrerStats.reduce((sum, item) => sum + item.visits, 0);
+    const maxVisits = referrerStats[0]?.visits ?? 0;
+
 
     const referrerOptions = {
+        google: "Google",
+        instagram: "Instagram",
+        facebook: "Facebook",
         direct: "Direkt",
-        social: "Social Media",
-        search: "Suchmaschinen"
+        other: "Andere",
     };
 
     return (
@@ -25,28 +26,25 @@ export default function ReferrerStats({referrerStats}){
             </CardHeader>
 
             <CardContent>
-                {totalVisits ?
+                {maxVisits ?
                     referrerStats.map((ref) => {
 
-                            const prozent = (ref.visits / totalVisits) * 100;
+                            const label = referrerOptions[ref.source] ?? ref.source;
+                            const percent = maxVisits > 0
+                                ? (ref.visits / maxVisits) * 100
+                                : 0;
+
                             return (
-                                <div className="w-full mt-5" key={ref.referrer_type}>
-                                    <div className="flex flex-row justify-between">
-                                        <p>{referrerOptions[ref.referrer_type] ?? ref.referrer_type}</p>
-                                        <p>{ref.visits} ({Math.round(prozent)}%)</p>
-                                    </div>
-                                    <motion.div
-                                        initial={{ width: "0%" }}
-                                        whileInView={{ width: `${prozent}%` }}
-                                        transition={{ duration: 0.8 }}
-                                        viewport={{ once: true }}
-                                        className="bg-purple-500 h-3 rounded-sm"
-                                    />
-                                </div>
+                                <StatsBar
+                                    key={ref.source}
+                                    label={label}
+                                    value={ref.visits}
+                                    percent={percent}
+                                />
                             )
                         }
                     ) :
-                    <p className="pl-10">Keine Besuche im ausgewählten Zeitraum.</p>
+                    <p className="pl-10">Keine Besucherquellen im ausgewählten Zeitraum.</p>
                 }
             </CardContent>
         </Card>

@@ -1,19 +1,16 @@
-"use client";
-
-import { motion } from "motion/react";
 import {
     Card,
     CardContent,
     CardHeader,
     CardTitle,
 } from "@/ui/components/shadcn/card";
+import StatsBar from "@/ui/components/analytics/StatsBar";
 
 
 export default function TopPages({topPages}) {
 
-    const maxPageViews = topPages[0] ? topPages[0].pageviews : null;
-
-
+    const maxPageviews = topPages[0]?.pageviews ?? 0;
+    
     return (
         <Card>
             <CardHeader>
@@ -21,25 +18,22 @@ export default function TopPages({topPages}) {
             </CardHeader>
 
             <CardContent>
-                {maxPageViews ?
+                {maxPageviews ?
                     topPages.map((page) => {
 
-                            const prozent = (page.pageviews / maxPageViews) * 100;
+                            const label = page.pathname;
+                            const percent = maxPageviews > 0
+                                ? (page.pageviews / maxPageviews) * 100
+                                : 0;
+
                             return (
-                                <div className="w-full mt-5" key={page.pathname}>
-                                    <div className="flex flex-row justify-between">
-                                        <p>{page.pathname}</p>
-                                        <p>{page.pageviews}</p>
-                                    </div>
-                                    <motion.div
-                                        initial={{ width: "0%" }}
-                                        whileInView={{ width: `${prozent}%` }}
-                                        transition={{ duration: 0.8 }}
-                                        viewport={{ once: true }}
-                                        className="bg-purple-500 h-3 rounded-sm"
-                                    />
-                                </div>
-                            )
+                                <StatsBar
+                                    key={page.pathname}
+                                    label={label}
+                                    value={page.pageviews}
+                                    percent={percent}
+                                />
+                            );
                         }
                     ) :
                     <p className="pl-10">Keine Seitenaufrufe im ausgewählten Zeitraum.</p>
