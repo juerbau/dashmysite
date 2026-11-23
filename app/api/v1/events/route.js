@@ -7,6 +7,7 @@ import {
     InvalidTrackingDataError,
 } from "@/lib/analytics/errors";
 import { dashMySiteEventSchema } from "@/lib/validation/dashmysite-event-schema";
+import getOperatingSystem from "@/lib/tracking/getOperatingSystem";
 
 export const runtime = "nodejs";
 
@@ -21,6 +22,7 @@ function getBearerToken(request) {
 }
 
 export async function POST(request) {
+
     try {
         const apiSecret = getBearerToken(request);
 
@@ -35,6 +37,8 @@ export async function POST(request) {
                 }
             );
         }
+
+        const operatingSystem = getOperatingSystem(request);
 
         const body = await request.json();
 
@@ -58,7 +62,6 @@ export async function POST(request) {
             pathname,
             referrer,
             browser,
-            operatingSystem,
             deviceType,
             language,
             country,

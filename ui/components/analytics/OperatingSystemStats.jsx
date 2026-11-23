@@ -10,13 +10,6 @@ export default function OperatingSystemStats({operatingSystemStats}) {
 
     const maxVisits = operatingSystemStats[0]?.visits ?? 0;
 
-    const operatingSystemLabels = {
-        ios: "iOS",
-        android: "Android",
-        windows: "Windows",
-        mac: "macOS",
-        unknown: "Unbekannt",
-    };
 
     return (
         <Card>
@@ -29,8 +22,11 @@ export default function OperatingSystemStats({operatingSystemStats}) {
 
                     operatingSystemStats.map((system) => {
 
-                            const label = operatingSystemLabels[system.operating_system] ?? system.operating_system;
-                            const percent = maxVisits > 0
+                        const label = system.operating_system === "Other"
+                            ? "Andere"
+                            : system.operating_system;
+
+                        const percent = maxVisits > 0
                                 ? (system.visits / maxVisits) * 100
                                 : 0;
 
