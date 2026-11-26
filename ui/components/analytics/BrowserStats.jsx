@@ -10,13 +10,9 @@ export default function BrowserStats({browserStats}) {
 
     const maxVisits = browserStats[0]?.visits ?? 0;
 
-
     const browserLabels = {
-        google: "Google Chrome",
-        safari: "Safari",
-        edge: "Edge",
-        firefox: "Firefox",
-        unknown: "Unbekannt",
+        Chrome: "Google Chrome",
+        Other: "Andere",
     };
 
     return (

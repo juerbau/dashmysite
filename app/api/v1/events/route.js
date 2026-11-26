@@ -8,6 +8,7 @@ import {
 } from "@/lib/analytics/errors";
 import { dashMySiteEventSchema } from "@/lib/validation/dashmysite-event-schema";
 import getOperatingSystem from "@/lib/tracking/getOperatingSystem";
+import getBrowser from "@/lib/tracking/getBrowser";
 
 export const runtime = "nodejs";
 
@@ -39,6 +40,7 @@ export async function POST(request) {
         }
 
         const operatingSystem = getOperatingSystem(request);
+        const browser = getBrowser(request);
 
         const body = await request.json();
 
@@ -61,7 +63,6 @@ export async function POST(request) {
             matchKey,
             pathname,
             referrer,
-            browser,
             deviceType,
             language,
             country,

@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import operatingSystemHelper from "../lib/analytics/operatingSystemHelper.js";
+import getOperatingSystem from "../lib/tracking/getOperatingSystem.js";
 
 const testCases = [
     {
@@ -103,6 +103,6 @@ for (const { name, headers, expected } of testCases) {
             headers
         });
 
-        assert.equal(operatingSystemHelper(request), expected);
+        assert.equal(getOperatingSystem(request), expected);
     });
 }
