@@ -21,7 +21,7 @@ export default function DeviceStats({deviceStats}) {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Devices</CardTitle>
+                <CardTitle>Geräte</CardTitle>
             </CardHeader>
 
             <CardContent>
@@ -45,7 +45,7 @@ export default function DeviceStats({deviceStats}) {
                         }
                     ) :
 
-                    <p className="pl-10">Keine Devices im ausgewählten Zeitraum.</p>
+                    <p className="pl-10">Keine Geräte im ausgewählten Zeitraum.</p>
                 }
             </CardContent>
         </Card>

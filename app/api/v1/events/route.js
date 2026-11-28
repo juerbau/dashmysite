@@ -9,6 +9,7 @@ import {
 import { dashMySiteEventSchema } from "@/lib/validation/dashmysite-event-schema";
 import getOperatingSystem from "@/lib/tracking/getOperatingSystem";
 import getBrowser from "@/lib/tracking/getBrowser";
+import getDeviceType from "@/lib/tracking/getDeviceType";
 
 export const runtime = "nodejs";
 
@@ -41,6 +42,7 @@ export async function POST(request) {
 
         const operatingSystem = getOperatingSystem(request);
         const browser = getBrowser(request);
+        const deviceType = getDeviceType(request);
 
         const body = await request.json();
 
@@ -63,7 +65,6 @@ export async function POST(request) {
             matchKey,
             pathname,
             referrer,
-            deviceType,
             language,
             country,
         } = validationResult.data;
