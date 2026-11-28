@@ -10,17 +10,15 @@ export default function LanguageStats({languageStats}) {
 
     const maxVisits = languageStats[0]?.visits ?? 0;
 
-    const countryLabels = {
-        de: "Deutsch",
-        en: "Englisch",
-        fr: "Französisch",
-        unknown: "Unbekannt",
-    };
+    const languageLabels = new Intl.DisplayNames(
+        ["de"],
+        {type: "language"}
+    );
 
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Sprachräume</CardTitle>
+                <CardTitle>Browsersprachen</CardTitle>
             </CardHeader>
 
             <CardContent>
@@ -28,7 +26,15 @@ export default function LanguageStats({languageStats}) {
 
                     languageStats.map((language) => {
 
-                            const label = countryLabels[language.language] ?? language.language;
+                            let label = "Unbekannt";
+                            if (/^[a-z]{2,3}$/.test(language.language ?? "")) {
+                                try {
+                                    label = languageLabels.of(language.language);
+                                } catch {
+                                    label = "Unbekannt";
+                                }
+                            }
+
                             const percent = maxVisits > 0
                                 ? (language.visits / maxVisits) * 100
                                 : 0;
@@ -44,7 +50,7 @@ export default function LanguageStats({languageStats}) {
                         }
                     ) :
 
-                    <p className="pl-10">Keine Sprachräume im ausgewählten Zeitraum.</p>
+                    <p className="pl-10">Keine Browsersprachen im ausgewählten Zeitraum.</p>
                 }
             </CardContent>
         </Card>
